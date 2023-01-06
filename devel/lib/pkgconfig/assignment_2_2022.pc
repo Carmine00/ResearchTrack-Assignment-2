@@ -1,0 +1,8 @@
+prefix=/root/ResearchTrack-Assignment-2/devel
+
+Name: assignment_2_2022
+Description: Description of assignment_2_2022
+Version: 0.0.0
+Cflags: -I/root/ResearchTrack-Assignment-2/devel/include
+Libs: -L${prefix}/lib 
+Requires: 
