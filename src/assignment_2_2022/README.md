@@ -48,7 +48,7 @@ while the node is active and new data has been published on */odom*, invoke *cal
 	publish variable
 
 ## Building and running the code
-To build and run the code, it is enough to write the following commands:
+To build and run the code, it is enough to write the following commands in the root folder of the workspace:
 ```shell
 catkin_make
 roslaunch assignment_2_2022 assignment1.launch
