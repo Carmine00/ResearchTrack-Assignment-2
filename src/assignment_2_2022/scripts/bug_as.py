@@ -163,10 +163,7 @@ def main():
 
     rospy.init_node('bug0')
     
-    desired_position_.x = 0.0
-    desired_position_.y = 1.0
-    rospy.set_param('des_pos_x', desired_position_.x)
-    rospy.set_param('des_pos_y', desired_position_.y)
+
     sub_laser = rospy.Subscriber('/scan', LaserScan, clbk_laser)
     sub_odom = rospy.Subscriber('/odom', Odometry, clbk_odom)
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)

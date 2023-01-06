@@ -9,7 +9,7 @@ import time
 
 def create_goal():
 
-    # Creates a goal to send to the action server.
+    # Create a goal to be sent to the action server.
     goal = assignment_2_2022.msg.PlanningGoal()
     
     print("Please insert a new goal")
@@ -45,6 +45,7 @@ def main():
     	
     	if flag == "d":
     	   client.cancel_goal()
+    	   # if the goal is canceled, ask for a new one
     	   client.send_goal(create_goal())
     	elif flag == "n":
     	   client.send_goal(create_goal())
