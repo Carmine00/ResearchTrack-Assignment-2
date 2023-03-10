@@ -1,5 +1,21 @@
 #! /usr/bin/env python
 
+"""
+.. module:: nodeApub
+:platform: Unix
+:synopsis: Python module to publish the robot position and velocity
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+Publisher:
+/robotData
+
+Subscriber:
+/odom
+
+"""
+
 import rospy
 from nav_msgs.msg import Odometry
 from assignment_2_2022.msg import Data 
@@ -8,6 +24,13 @@ from assignment_2_2022.msg import Data
 pub = rospy.Publisher('robotData', Data, queue_size=10) 
 
 def callback(data):
+    """
+    Callback function to publish the robot's position and velocity
+    
+    Args:
+    data(twist): the robot's position and velocity
+    
+    """
     
     # define variable as the type of the custom message
     value = Data()
@@ -24,6 +47,8 @@ def main():
     rospy.init_node('nodeApub.py')
     
     rospy.Subscriber("odom", Odometry, callback)
+    """ subscriber to the robot's odometry
+    """
     rospy.spin()
 
 

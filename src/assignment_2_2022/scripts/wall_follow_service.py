@@ -1,5 +1,24 @@
 #! /usr/bin/env python
 
+"""
+.. module:: wall_follow_service
+:platform: Unix
+:synopsis: Python module to let the robot follow the countour of an object
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+Publisher:
+/cmd_vel
+
+Subscriber:
+/scan
+
+Server service:
+/wall_follower_switch
+
+"""
+
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
@@ -28,6 +47,13 @@ state_dict_ = {
 
 
 def wall_follower_switch(req):
+    """
+    Callback function to activate the /wall_follower_switch
+    
+    Args:
+    req(SetBool)
+    
+    """
     global active_
     active_ = req.data
     res = SetBoolResponse()
@@ -37,6 +63,13 @@ def wall_follower_switch(req):
 
 
 def clbk_laser(msg):
+    """
+    Callback function to elaborate the laser data
+    
+    Args:
+    msg(scan): the laser's scan
+    
+    """
     global regions_
     regions_ = {
         'right':  min(min(msg.ranges[0:143]), 10),
@@ -50,6 +83,13 @@ def clbk_laser(msg):
 
 
 def change_state(state):
+    """
+    Function to change the variable state and perform different task
+    
+    Args:
+    state(int): fixed known value
+    
+    """
     global state_, state_dict_
     if state is not state_:
         print ('Wall follower - [%s] - %s' % (state, state_dict_[state]))
@@ -57,6 +97,8 @@ def change_state(state):
 
 
 def take_action():
+    """ Function to analyze the regions variable and perform choices
+    """
     global regions_
     regions = regions_
     msg = Twist()
@@ -123,10 +165,16 @@ def main():
     rospy.init_node('reading_laser')
 
     pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    """ Publisher for the robot's velocity
+    """
 
     sub = rospy.Subscriber('/scan', LaserScan, clbk_laser)
+    """ Subscriber to the laser data
+    """
 
     srv = rospy.Service('wall_follower_switch', SetBool, wall_follower_switch)
+    """ Server to instatiate the service to follow the countour of an obstacle
+    """
 
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():

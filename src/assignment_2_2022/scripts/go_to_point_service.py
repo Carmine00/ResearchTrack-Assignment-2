@@ -1,5 +1,26 @@
 #! /usr/bin/env python
 
+"""
+.. module:: go_to_point_service
+:platform: Unix
+:synopsis: Python module to let the robot reach a point
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+ROS node that allows a robot to reach a point in space through a straight line
+
+Subscriber:
+/odom
+
+Publisher:
+/cmd_vel
+
+Server service:
+/go_to_point_switch
+
+"""
+
 # import ros stuff
 import rospy
 from sensor_msgs.msg import LaserScan
@@ -41,6 +62,13 @@ pub = None
 
 
 def go_to_point_switch(req):
+    """
+    Callback function to activate the /go_to_point_switch
+    
+    Args:
+    req(SetBool)
+    
+    """
     global active_
     active_ = req.data
     res = SetBoolResponse()
@@ -52,6 +80,13 @@ def go_to_point_switch(req):
 
 
 def clbk_odom(msg):
+    """
+    Callback function to elaborate the odometry data
+    
+    Args:
+    msg(odom): the robot's odom
+    
+    """
     global position_
     global yaw_
 
@@ -69,6 +104,13 @@ def clbk_odom(msg):
 
 
 def change_state(state):
+    """
+    Function to change the variable state and perform different task
+    
+    Args:
+    state(int): fixed known value
+    
+    """
     global state_
     state_ = state
     print ('State changed to [%s]' % state_)
@@ -104,6 +146,13 @@ def fix_yaw(des_pos):
 
 
 def go_straight_ahead(des_pos):
+    """
+    Function to reach a point straight on a line
+    
+    Args:
+    des_pos(int): desired position
+    
+    """
     global yaw_, pub, yaw_precision_, state_
     desired_yaw = math.atan2(des_pos.y - position_.y, des_pos.x - position_.x)
     err_yaw = desired_yaw - yaw_
@@ -129,6 +178,8 @@ def go_straight_ahead(des_pos):
 
 
 def done():
+    """ Function to set and publishe the velocities equal to zero when goal is reached
+    """
     twist_msg = Twist()
     twist_msg.linear.x = 0
     twist_msg.angular.z = 0
@@ -141,10 +192,16 @@ def main():
     rospy.init_node('go_to_point')
 
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    """ Publisher for the robot's velocity
+    """
 
     sub_odom = rospy.Subscriber('/odom', Odometry, clbk_odom)
+    """ Subscriber for the robot's odometry
+    """
 
     srv = rospy.Service('go_to_point_switch', SetBool, go_to_point_switch)
+    """ Server to instatiate the service to reach a point
+    """
 
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
@@ -153,6 +210,8 @@ def main():
         else:
             desired_position_.x = rospy.get_param('des_pos_x')
             desired_position_.y = rospy.get_param('des_pos_y')
+            """ Retrieve desired position from ROS parameter server
+            """
             if state_ == 0:
                 fix_yaw(desired_position_)
             elif state_ == 1:

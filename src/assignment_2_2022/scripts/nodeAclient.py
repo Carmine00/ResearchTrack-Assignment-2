@@ -1,5 +1,20 @@
 #! /usr/bin/env python
 
+"""
+.. module:: nodeAclient
+:platform: Unix
+:synopsis: Python module for the user interface
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+ROS node that allows the user to set or cancel a goal
+
+Client action:
+/reaching_goal
+
+"""
+
 
 import rospy
 # Brings in the SimpleActionClient
@@ -23,16 +38,16 @@ def create_goal():
 
 
 def main():
-    # time needed for Gazebo and the other programs to start
     time.sleep(8) 
+    """ time needed for Gazebo and the other programs to start
+    """
     rospy.init_node('nodeAclient.py')
     
-    # Creates the SimpleActionClient, passing the type of the action
     client = actionlib.SimpleActionClient('/reaching_goal', assignment_2_2022.msg.PlanningAction)
+    """ client to set the goal
+    """
 
-    # Waits until the action server has started up and started listening for goals.
     client.wait_for_server()
-    # Sends the goal to the action server.
     client.send_goal(create_goal())
     
     

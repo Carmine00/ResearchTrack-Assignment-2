@@ -1,5 +1,31 @@
 #! /usr/bin/env python
 
+"""
+.. module:: bug_as
+:platform: Unix
+:synopsis: Python module for activating the behaviour of the robot
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+ROS node for controlling a robot in the Gazebo enviroment
+
+Subscriber:
+/scan
+/odom
+
+Publisher:
+/cmd_vel
+
+Clients service:
+/go_to_point_switch
+/wall_follower_switch
+
+Server action:
+/reaching_goal
+
+"""
+
 import rospy
 from geometry_msgs.msg import Point, Pose, Twist
 from sensor_msgs.msg import LaserScan
@@ -13,7 +39,11 @@ from std_srvs.srv import *
 import time
 
 srv_client_go_to_point_ = None
+""" Bool variable to activate the service /go_to_point_switch
+"""
 srv_client_wall_follower_ = None
+""" Bool variable to activate the service /wall_follower_switch
+"""
 yaw_ = 0
 yaw_error_allowed_ = 5 * (math.pi / 180)  # 5 degrees
 position_ = Point()
@@ -31,6 +61,13 @@ state_ = 0
 
 
 def clbk_odom(msg):
+    """
+    Callback function to elaborate the odometry data
+    
+    Args:
+    msg(odom): the robot's odom
+    
+    """
     global position_, yaw_, pose_
 
     # position
@@ -48,6 +85,13 @@ def clbk_odom(msg):
 
 
 def clbk_laser(msg):
+    """
+    Callback function to elaborate the laser data
+    
+    Args:
+    msg(scan): the laser's scan
+    
+    """
     global regions_
     regions_ = {
         'right':  min(min(msg.ranges[0:143]), 10),
@@ -59,6 +103,13 @@ def clbk_laser(msg):
 
 
 def change_state(state):
+    """
+    Function to activate/deactivate the service based on the state current value
+    
+    Args:
+    state(int): fixed known value
+    
+    """
     global state_, state_desc_
     global srv_client_wall_follower_, srv_client_go_to_point_
     state_ = state
@@ -81,6 +132,8 @@ def normalize_angle(angle):
     return angle
     
 def done():
+    """ Function to set and publishe the velocities equal to zero when goal is reached
+    """
     twist_msg = Twist()
     twist_msg.linear.x = 0
     twist_msg.angular.z = 0
@@ -88,6 +141,13 @@ def done():
     
     
 def planning(goal):
+    """
+    Callback function to plan the action of the robot
+    
+    Args:
+    goal(PlanningAction): goal set by the user interface
+    
+    """
     global regions_, position_, desired_position_, state_, yaw_, yaw_error_allowed_
     global srv_client_go_to_point_, srv_client_wall_follower_, act_s, pose_
     change_state(0)
@@ -165,13 +225,23 @@ def main():
     
 
     sub_laser = rospy.Subscriber('/scan', LaserScan, clbk_laser)
+    """ Subscriber to the laser data
+    """
     sub_odom = rospy.Subscriber('/odom', Odometry, clbk_odom)
+    """ Subscriber for the robot's odometry
+    """
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
-    srv_client_go_to_point_ = rospy.ServiceProxy(
-        '/go_to_point_switch', SetBool)
-    srv_client_wall_follower_ = rospy.ServiceProxy(
-        '/wall_follower_switch', SetBool)
+    """ Publisher for the robot's velocity
+    """
+    srv_client_go_to_point_ = rospy.ServiceProxy('/go_to_point_switch', SetBool)
+    """ Client to instruct the robot to reach a point
+    """
+    srv_client_wall_follower_ = rospy.ServiceProxy('/wall_follower_switch', SetBool)
+    """ Client to instruct the robot to follow the countour of an obstacle
+    """
     act_s = actionlib.SimpleActionServer('/reaching_goal', assignment_2_2022.msg.PlanningAction, planning, auto_start=False)
+    """ Server to reach a goal
+    """
     act_s.start()
    
     # initialize going to the point

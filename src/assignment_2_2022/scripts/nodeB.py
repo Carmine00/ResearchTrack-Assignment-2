@@ -1,5 +1,21 @@
 #! /usr/bin/env python
 
+"""
+.. module:: nodeB
+:platform: Unix
+:synopsis: Python module that publishes the goal canceled/achieved when requested
+
+
+.. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
+
+Subscriber:
+/reaching_goal/feedback
+
+Server service:
+/robotStatistics
+
+"""
+
 
 import rospy
 from assignment_2_2022.msg import PlanningActionFeedback
@@ -10,6 +26,13 @@ count_reach = 0
 count_canc = 0
 
 def checkFeed(data):
+    """
+    Callback function to check the feedback and update variables
+    
+    Args:
+    data(PlanningActionFeedback)
+    
+    """
     
     global count_reach, count_canc
     
@@ -20,6 +43,13 @@ def checkFeed(data):
        count_reach += 1
        
 def publish_stat(request):
+    """
+    Callback function to publish the goals reached and canceled
+    
+    Args:
+    request(statinf)
+    
+    """
 
     global count_reach, count_canc
     
@@ -38,10 +68,13 @@ def publish_stat(request):
 def main():
     rospy.init_node('nodeB.py')
     
-    # create a service that publishes the statistics about the robot's goal
+   
     srv = rospy.Service('robotStatistics', StatInf, publish_stat)
-    # subscribe to the feedback of the goal to check which message is written from time to time
+    """ server service that publishes the statistics about the robot's goal
+    """
     rospy.Subscriber("/reaching_goal/feedback", PlanningActionFeedback, checkFeed)
+    """ subscriber to the feedback of the goal 
+    """
     rospy.spin()
 
 
