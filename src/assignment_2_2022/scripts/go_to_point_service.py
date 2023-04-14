@@ -19,6 +19,8 @@ Publisher:
 Server service:
 /go_to_point_switch
 
+
+
 """
 
 # import ros stuff

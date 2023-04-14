@@ -24,6 +24,8 @@ Clients service:
 Server action:
 /reaching_goal
 
+
+
 """
 
 import rospy
