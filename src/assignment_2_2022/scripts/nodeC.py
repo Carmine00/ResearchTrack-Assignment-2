@@ -2,8 +2,8 @@
 
 """
 .. module:: nodeC
-:platform: Unix
-:synopsis: Python module that publishes the distance from the goal and the robot's velocity
+   :platform: Unix
+   :synopsis: Python module that publishes the distance from the goal and the robot's velocity
 
 
 .. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
@@ -13,8 +13,6 @@ Publisher:
 
 Subscriber:
 /robotData
-
-
 
 """
 

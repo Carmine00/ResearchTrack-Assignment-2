@@ -2,8 +2,8 @@
 
 """
 .. module:: nodeAclient
-:platform: Unix
-:synopsis: Python module for the user interface
+   :platform: Unix
+   :synopsis: Python module for the user interface
 
 
 .. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
@@ -12,8 +12,6 @@ ROS node that allows the user to set or cancel a goal
 
 Client action:
 /reaching_goal
-
-
 
 """
 

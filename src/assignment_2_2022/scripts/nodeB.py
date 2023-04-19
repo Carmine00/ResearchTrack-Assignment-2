@@ -2,8 +2,8 @@
 
 """
 .. module:: nodeB
-:platform: Unix
-:synopsis: Python module that publishes the goal canceled/achieved when requested
+   :platform: Unix
+   :synopsis: Python module that publishes the goal canceled/achieved when requested
 
 
 .. moduleauthor:: Carmine Miceli carmine-miceli@outlook.it
@@ -13,8 +13,6 @@ Subscriber:
 
 Server service:
 /robotStatistics
-
-
 
 """
 
