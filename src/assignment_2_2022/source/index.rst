@@ -1,5 +1,5 @@
 .. Assignment_2 documentation master file, created by
-   sphinx-quickstart on Tue Feb 28 15:45:48 2023.
+   sphinx-quickstart on Fri Apr 21 15:13:30 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -19,36 +19,27 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-Assignment_2 documentation!
-**************************************
+nodeAclient module
+==================
 
-This is the documentation of the assignment_2 package!
-
-
-bug_as Module
-===========================
-.. automodule:: scripts.bug_as
-
-go_to_point_service Module
-===========================
-.. automodule:: scripts.go_to_point_service
-
-wall_follow_service Module
-===========================
-.. automodule:: scripts.wall_follow_service
-
-nodeAclient Module
-===========================
 .. automodule:: scripts.nodeAclient
+   :members:
+   
+nodeApub module
+==================
 
-nodeApub Module
-===========================
 .. automodule:: scripts.nodeApub
+   :members:
+   
+nodeB module
+==================
 
-nodeB Module
-===========================
 .. automodule:: scripts.nodeB
+   :members:
+   
+nodeC module
+==================
 
-nodeC Module
-===========================
 .. automodule:: scripts.nodeC
+   :members:
+
