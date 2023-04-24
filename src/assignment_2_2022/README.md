@@ -54,8 +54,8 @@ catkin_make
 roslaunch assignment_2_2022 assignment1.launch
 ```
 
-## Github repository
-https://github.com/Carmine00/ResearchTrack-Assignment-2.git
+## Documentation
+[Here]https://carmine00.github.io/ResearchTrack-Assignment-2/ it is possible to read the related documentation.
 
 ## Authors
 Carmine Recchiuto (bug_as, go_to_point_service.py, wall_follow_service.py and the remaining config files) <br />
