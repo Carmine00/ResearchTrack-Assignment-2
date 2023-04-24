@@ -55,7 +55,7 @@ roslaunch assignment_2_2022 assignment1.launch
 ```
 
 ## Documentation
-[Here] https://carmine00.github.io/ResearchTrack-Assignment-2/ it is possible to read the related documentation.
+[Here] (https://carmine00.github.io/ResearchTrack-Assignment-2/) it is possible to read the related documentation.
 
 ## Authors
 Carmine Recchiuto (bug_as, go_to_point_service.py, wall_follow_service.py and the remaining config files) <br />
